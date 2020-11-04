@@ -1,0 +1,252 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package ist140final;
+import java.util.Scanner;
+import java.io.*;
+import java.util.ArrayList;
+/**
+ *
+ * @author jaylahwilliams
+ */
+public class IST140FINAL {
+   
+    /**
+     * @param args the command line arguments
+     */
+    
+    /*
+ 
+/*
+Method getGrades:
+
+Does not take any parameters and returns an array.
+
+Generate a random number between 3 and 10 and call it numGrades (integer).
+
+Create an integer array to store the grades; the array is size numGrades.
+
+Generate numGrades random numbers. These numbers represent a series of valid grades (0<=grade<=100).
+
+Store each of these numbers in the integer array.
+
+Example:
+
+First random number generated is 5.
+
+Generate 5 random numbers between 0 and 100 (e.g. 56, 89, 98, 84, 34); these 5 numbers are stored in the array.
+*/
+   /**
+    * This method creates a list of random grades and stores in an array
+    * @return arrayGrades this is the array where the grades are stored.
+    */ 
+  private static int []getGrades()
+  {
+      final int numGrades=0;
+      int[] arrayGrades=new int[numGrades];
+      int randGrade;
+      
+      for (int i=0;i<numGrades;i++)
+      {
+          randGrade=(int)(Math.random()*(10-3+1)+3);
+          arrayGrades[i]=randGrade;
+      }
+      return arrayGrades;    
+  }
+    
+    
+ /*
+Method writeToFile
+
+Takes a parameter of  an integer array of grades and does not return anything.
+
+Writes the array of grades to a file called grades.txt
+
+Catches a file not found exception.
+*/
+  /**
+   * This method fills the file "grades.txt" with the grades from the class and returns nothing
+   * @param arrayGrades this is an array of random grades from class
+   */
+  public static void writeToFile(ArrayList arrayGrades)
+  {
+     PrintWriter out=null;
+     String fileName = "grades.txt";
+     
+     try
+     {
+         out=new PrintWriter(fileName);
+         for(int i=0;i<arrayGrades.size();i++)
+         {
+             out.println(arrayGrades.get(i));
+         }
+     }
+     catch(FileNotFoundException fne)
+             {
+                 System.out.println(fne.getMessage());
+             }
+     finally
+     {
+        if(out !=null)
+        {
+            out.close();
+        }
+     }
+  }
+ 
+/*
+Method readGrades
+
+Takes no parameters and returns an array list.
+
+Reads the file contents from grades.txt into an array list.
+
+Catch a file not found exception.
+*/
+  /**
+   * This method takes no parameters and reads the class grades from a file named "grades.txt" 
+   * @return gradesArrayList this is an a array of all the grades in the class
+   */
+public static ArrayList readGrades()
+{
+    String fileName="grades.txt";
+    ArrayList gradesArrayList=new ArrayList();
+    File fileToRead=new File(fileName);
+    
+    Scanner scnr=null;
+    String nextLine="";
+    
+    try
+    {
+      scnr= new Scanner(fileToRead);
+      
+      while(scnr.hasNextLine())
+      {
+          nextLine=scnr.nextLine();
+          gradesArrayList.add(nextLine);
+      }
+    }
+    catch(FileNotFoundException fne)
+            {
+             String errorString=fne.getMessage();
+             System.out.println(errorString);
+            }
+    finally
+    {
+       if(scnr !=null) 
+       {
+           scnr.close();
+       }
+    }
+    return gradesArrayList;
+           
+}
+
+/*
+Method calcAvgGrades
+
+Takes an array list and returns the grade average.
+
+Calculate the average of the grades (double).
+*/
+/**
+ * This method calculates the average grade of the class
+ * @param gradesArrayList this the the array fille with all the grades from the class
+ * @return avgGrade this the the average grade of the class
+ */
+public static double calcAvgGrades(ArrayList <Integer> gradesArrayList)
+{
+    int sum=0;
+    for (int i=0;i<gradesArrayList.size();i++)
+    {
+        sum+=(double)gradesArrayList.get(i);
+    }
+    double avgGrade=sum/gradesArrayList.size();
+    
+    return avgGrade;
+}
+
+/*
+Method determineClassPerformance
+
+Takes a double of the class average and returns a string denoting class performance.
+
+Based on this table, determine the performance of the class, based on the class average:
+
+    Average <= 50                       Poor
+
+    Average <=80 and > 50         Acceptable
+
+    Average >80                          Good
+    */
+
+  /**
+   * A method that determines the performance of a class based on average grade
+   * @param avgGrade this is the average grade of the class
+   * @return the performance level of the class
+   */
+  public static String determineClassPerformance(double avgGrade)
+  {
+      String performance=new String();
+      for(int i=0;i<avgGrade;i++)
+      {
+          if(avgGrade<=50)
+          {
+              performance="Poor";
+            
+          }
+          else if(avgGrade<=80 && avgGrade>50)
+          {
+              performance="Acceptable";
+          }
+          else
+          {
+              performance="Good";
+          }
+   
+      } 
+      return performance;
+  }
+
+  
+  /*
+     Main method:
+
+Call the getGrades method.
+
+Call the writeToFile method; pass the array of grades.
+
+Call the readGrades method.
+
+Call calcAvgGrades; pass the array list of grades.
+
+Call determineClassPerformance; pass the average score calculated.
+
+Print the average grade and associated class performance with the text "The average grade is " grade number "with a class performance of" performance level.
+
+Catch any Exception that might be thrown.
+  */
+  
+    public static void main(String[] args) 
+    {
+       try
+       {
+           Scanner scnr=new Scanner(System.in);
+           int []arrayGrades=getGrades();
+           writeToFile(arrayGrades);
+           ArrayList<Integer> scores=readGrades();
+           double avgGrades=calcAvgGrades(gradesArrayList);
+           String performance=determineClassPerformance(avgGrades);
+           
+           System.out.println("The average grade is "+ avgGrades+ "With a class performance of "+ performance);
+       }
+       catch(Exception e)
+               {
+                   String errorMsg=e.getMessage();
+                   System.out.println(errorMsg);
+               }
+    }
+    
+}
